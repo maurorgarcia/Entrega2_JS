@@ -1,0 +1,561 @@
+/* =====================================================
+   SIMULADOR DE TURNOS — styles.css
+   Entregable 2 · Diseño custom sobre Bootstrap 5
+   ===================================================== */
+
+/* ---------- Variables globales ---------- */
+:root {
+  --azul-oscuro:  #0f3460;
+  --azul-medio:   #1a5276;
+  --azul-acento:  #2980b9;
+  --teal:         #00b4d8;
+  --teal-suave:   #e0f7fa;
+  --verde:        #06d6a0;
+  --verde-suave:  #e6f9f5;
+  --rojo:         #ef233c;
+  --rojo-suave:   #fdecea;
+  --naranja:      #f4a261;
+  --fondo:        #f0f4f8;
+  --blanco:       #ffffff;
+  --gris-claro:   #e9ecef;
+  --gris-texto:   #6c757d;
+  --sombra-sm:    0 2px 8px rgba(15, 52, 96, 0.10);
+  --sombra-md:    0 6px 20px rgba(15, 52, 96, 0.14);
+  --radio:        14px;
+  --radio-sm:     8px;
+  --font-main:    'Outfit', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+}
+
+/* ---------- Reset y base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--fondo);
+  color: #1a202c;
+  min-height: 100vh;
+}
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+.app-header {
+  background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 60%, var(--azul-acento) 100%);
+  color: var(--blanco);
+  padding: 2rem 0 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Patrón decorativo de fondo */
+.header-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 80% 20%, rgba(0,180,216,0.18) 0%, transparent 50%),
+    radial-gradient(circle at 10% 80%, rgba(6,214,160,0.12) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+.header-icon {
+  width: 52px;
+  height: 52px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+.app-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.app-subtitle {
+  font-size: 0.82rem;
+  opacity: 0.72;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  margin-top: 2px;
+}
+
+.badge-capacidad {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+/* =====================================================
+   ESTADÍSTICAS
+   ===================================================== */
+.stats-section {
+  padding: 1.4rem 0 0.4rem;
+}
+
+.stat-card {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  padding: 1.1rem 1.2rem;
+  box-shadow: var(--sombra-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-md);
+}
+
+.stat-card--ocupacion {
+  align-items: flex-start;
+}
+
+.stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radio-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.stat-icon--blue  { background: #dbeafe; color: #1d4ed8; }
+.stat-icon--green { background: var(--verde-suave); color: #059669; }
+.stat-icon--teal  { background: var(--teal-suave); color: #0077a8; }
+
+.stat-numero {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--azul-oscuro);
+  line-height: 1;
+  font-family: var(--font-mono);
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--gris-texto);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Barra de progreso */
+.progress-bar { transition: width 0.5s ease; }
+#barra-ocupacion.bg-verde   { background-color: var(--verde) !important; }
+#barra-ocupacion.nivel-bajo  { background-color: var(--verde) !important; }
+#barra-ocupacion.nivel-medio { background-color: var(--naranja) !important; }
+#barra-ocupacion.nivel-alto  { background-color: var(--rojo) !important; }
+
+/* =====================================================
+   CONTENIDO PRINCIPAL
+   ===================================================== */
+.main-content {
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+}
+
+/* =====================================================
+   FORMULARIO
+   ===================================================== */
+.form-card {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-sm);
+  overflow: hidden;
+}
+
+.form-card-header {
+  background: linear-gradient(90deg, var(--azul-oscuro), var(--azul-medio));
+  color: var(--blanco);
+  padding: 1rem 1.4rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.form-card-body {
+  padding: 1.6rem 1.4rem;
+}
+
+/* Campos del formulario */
+.campo-grupo {
+  margin-bottom: 1.1rem;
+}
+
+.campo-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--azul-oscuro);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.campo-input {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid var(--gris-claro);
+  border-radius: var(--radio-sm);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  color: #1a202c;
+  background: #fafbfc;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  outline: none;
+}
+
+.campo-input:focus {
+  border-color: var(--azul-acento);
+  background: var(--blanco);
+  box-shadow: 0 0 0 3px rgba(41,128,185,0.12);
+}
+
+.campo-input.is-invalid {
+  border-color: var(--rojo);
+  box-shadow: 0 0 0 3px rgba(239,35,60,0.1);
+}
+
+.campo-select { appearance: none; cursor: pointer; }
+.campo-textarea { resize: vertical; min-height: 80px; }
+
+.campo-error {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--rojo);
+  margin-top: 4px;
+  min-height: 1rem;
+  font-weight: 500;
+}
+
+/* Botón registrar */
+.btn-registrar {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-acento));
+  color: var(--blanco);
+  border: none;
+  border-radius: var(--radio-sm);
+  font-family: var(--font-main);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  margin-top: 0.4rem;
+  letter-spacing: 0.02em;
+}
+
+.btn-registrar:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(15,52,96,0.28);
+}
+
+.btn-registrar:active {
+  transform: translateY(0);
+}
+
+/* =====================================================
+   LISTA DE TURNOS
+   ===================================================== */
+.lista-card {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-sm);
+  overflow: hidden;
+}
+
+.lista-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.4rem;
+  background: linear-gradient(90deg, var(--azul-oscuro), var(--azul-medio));
+  color: var(--blanco);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.btn-limpiar {
+  background: rgba(239,35,60,0.18);
+  border: 1px solid rgba(239,35,60,0.35);
+  color: #ffb3bc;
+  border-radius: var(--radio-sm);
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-limpiar:hover {
+  background: rgba(239,35,60,0.35);
+  color: #fff;
+}
+
+/* Mensaje lista vacía */
+.lista-vacia {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--gris-texto);
+}
+
+.lista-vacia i {
+  font-size: 3rem;
+  color: var(--gris-claro);
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.lista-vacia p {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  color: #adb5bd;
+}
+
+.lista-vacia span {
+  font-size: 0.8rem;
+}
+
+/* Contenedor de las tarjetas de turno */
+#lista-turnos {
+  padding: 1rem 1.1rem;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+/* Scrollbar personalizado */
+#lista-turnos::-webkit-scrollbar { width: 5px; }
+#lista-turnos::-webkit-scrollbar-track { background: transparent; }
+#lista-turnos::-webkit-scrollbar-thumb {
+  background: var(--gris-claro);
+  border-radius: 99px;
+}
+
+/* =====================================================
+   TARJETAS DE TURNO (cada paciente)
+   ===================================================== */
+.turno-card {
+  background: #f8fafc;
+  border: 1.5px solid var(--gris-claro);
+  border-radius: var(--radio-sm);
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  animation: slideInCard 0.3s ease forwards;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.turno-card:hover {
+  border-color: var(--azul-acento);
+  box-shadow: var(--sombra-sm);
+}
+
+.turno-card:last-child { margin-bottom: 0; }
+
+@keyframes slideInCard {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Número de turno (círculo) */
+.turno-numero {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-acento));
+  color: var(--blanco);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* Info del paciente */
+.turno-info { flex: 1; min-width: 0; }
+
+.turno-nombre {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--azul-oscuro);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.turno-meta {
+  font-size: 0.75rem;
+  color: var(--gris-texto);
+  margin-bottom: 5px;
+}
+
+.turno-meta span { margin-right: 0.6rem; }
+
+.turno-motivo {
+  font-size: 0.78rem;
+  color: #495057;
+  background: var(--blanco);
+  border-radius: var(--radio-sm);
+  padding: 4px 8px;
+  border-left: 3px solid var(--teal);
+  line-height: 1.4;
+}
+
+.turno-especialidad-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+/* Botón eliminar */
+.btn-eliminar-turno {
+  background: none;
+  border: 1.5px solid var(--gris-claro);
+  border-radius: var(--radio-sm);
+  color: #adb5bd;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+  align-self: flex-start;
+  font-size: 0.9rem;
+}
+
+.btn-eliminar-turno:hover {
+  background: var(--rojo-suave);
+  color: var(--rojo);
+  border-color: var(--rojo);
+}
+
+/* =====================================================
+   MODAL DE CONFIRMACIÓN
+   ===================================================== */
+.modal-custom {
+  border: none;
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: var(--sombra-md);
+}
+
+.modal-header-custom {
+  background: var(--rojo-suave);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-icono-danger {
+  width: 56px;
+  height: 56px;
+  background: rgba(239,35,60,0.12);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: var(--rojo);
+}
+
+.modal-titulo-texto {
+  font-weight: 700;
+  color: var(--azul-oscuro);
+  margin-bottom: 0.4rem;
+}
+
+.modal-desc {
+  font-size: 0.88rem;
+  color: var(--gris-texto);
+  line-height: 1.5;
+}
+
+.modal-footer-custom {
+  display: flex;
+  gap: 0.6rem;
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.btn-modal-cancelar,
+.btn-modal-confirmar {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: var(--radio-sm);
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-modal-cancelar {
+  background: var(--gris-claro);
+  border: none;
+  color: #495057;
+}
+
+.btn-modal-cancelar:hover { opacity: 0.8; }
+
+.btn-modal-confirmar {
+  background: var(--rojo);
+  border: none;
+  color: var(--blanco);
+}
+
+.btn-modal-confirmar:hover { opacity: 0.88; }
+
+/* =====================================================
+   TOASTS PERSONALIZADOS
+   ===================================================== */
+.toast {
+  border-radius: var(--radio-sm) !important;
+  box-shadow: var(--sombra-md) !important;
+  font-family: var(--font-main) !important;
+  font-size: 0.88rem !important;
+  font-weight: 500 !important;
+  min-width: 260px;
+}
+
+/* =====================================================
+   RESPONSIVE AJUSTES
+   ===================================================== */
+@media (max-width: 576px) {
+  .app-title     { font-size: 1.2rem; }
+  .badge-capacidad { display: none; }
+  .stat-numero   { font-size: 1.2rem; }
+}
