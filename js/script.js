@@ -1,17 +1,6 @@
-/**
- * script.js
- * Simulador de Turnos de Pacientes — Entregable 2
- * Lógica principal: DOM, Eventos, Arrays, Objetos, localStorage
- */
-
-// ============================================================
-// CONSTANTES
-// ============================================================
-
-/** Máximo de turnos permitidos por día */
+// Capacidad máxima de turnos por día
 const MAX_TURNOS = 10;
 
-/** Lista de especialidades disponibles en el consultorio */
 const ESPECIALIDADES = [
   "Clínica General",
   "Pediatría",
@@ -23,20 +12,11 @@ const ESPECIALIDADES = [
   "Ginecología",
 ];
 
-// ============================================================
-// ESTADO DE LA APLICACIÓN
-// ============================================================
-
-/** Array principal que contiene todos los turnos activos */
+// Estado principal de la app
 let turnos = Storage.cargar();
-
-/** ID del turno que está pendiente de confirmación para eliminar */
 let turnoAEliminar = null;
 
-// ============================================================
-// REFERENCIAS AL DOM
-// ============================================================
-
+// Referencias al DOM
 const formulario         = document.getElementById("form-turno");
 const inputNombre        = document.getElementById("nombre");
 const inputEdad          = document.getElementById("edad");
@@ -48,7 +28,6 @@ const btnLimpiar         = document.getElementById("btn-limpiar");
 const btnConfirmar       = document.getElementById("btn-confirmar-eliminar");
 const toastContenedor    = document.getElementById("toast-contenedor");
 
-// Elementos de estadísticas
 const statTotal       = document.getElementById("stat-total");
 const statDisponibles = document.getElementById("stat-disponibles");
 const statProximo     = document.getElementById("stat-proximo");
@@ -56,16 +35,7 @@ const statPorcentaje  = document.getElementById("stat-porcentaje");
 const barraOcupacion  = document.getElementById("barra-ocupacion");
 const badgeTexto      = document.getElementById("badge-texto");
 
-// ============================================================
-// FUNCIONES DE NOTIFICACIÓN (reemplaza alert/confirm)
-// ============================================================
-
-/**
- * Muestra un toast de notificación en pantalla.
- * Reemplaza completamente el uso de alert().
- * @param {string} mensaje - Texto de la notificación
- * @param {string} tipo    - "success" | "danger" | "warning" | "info"
- */
+// Muestra un toast en pantalla (reemplaza alert)
 function mostrarNotificacion(mensaje, tipo = "success") {
   const iconos = {
     success: "bi-check-circle-fill",
@@ -93,18 +63,9 @@ function mostrarNotificacion(mensaje, tipo = "success") {
   const instanciaToast = new bootstrap.Toast(toastElemento, { delay: 3500 });
   instanciaToast.show();
 
-  // Limpia el DOM después de que se oculta
   toastElemento.addEventListener("hidden.bs.toast", () => toastElemento.remove());
 }
 
-// ============================================================
-// FUNCIONES DE VALIDACIÓN
-// ============================================================
-
-/**
- * Limpia el mensaje de error de un campo específico.
- * @param {string} idCampo - ID del input a limpiar
- */
 function limpiarError(idCampo) {
   const input = document.getElementById(idCampo);
   const error = document.getElementById(`error-${idCampo}`);
@@ -112,11 +73,6 @@ function limpiarError(idCampo) {
   if (error) error.textContent = "";
 }
 
-/**
- * Muestra un mensaje de error en un campo específico.
- * @param {string} idCampo - ID del input con error
- * @param {string} mensaje - Texto del error a mostrar
- */
 function mostrarErrorCampo(idCampo, mensaje) {
   const input = document.getElementById(idCampo);
   const error = document.getElementById(`error-${idCampo}`);
@@ -124,12 +80,8 @@ function mostrarErrorCampo(idCampo, mensaje) {
   if (error) error.textContent = mensaje;
 }
 
-/**
- * Valida todos los campos del formulario.
- * @returns {Object|null} Objeto con los datos válidos, o null si hay errores
- */
+// Valida el formulario y retorna los datos o null si hay errores
 function validarFormulario() {
-  // Limpia errores previos
   ["nombre", "edad", "especialidad", "motivo"].forEach(limpiarError);
 
   const nombre       = inputNombre.value.trim();
@@ -139,7 +91,6 @@ function validarFormulario() {
   const edad         = parseInt(edadValor, 10);
   let esValido       = true;
 
-  // Validación: nombre
   if (!nombre) {
     mostrarErrorCampo("nombre", "El nombre es obligatorio.");
     esValido = false;
@@ -148,7 +99,6 @@ function validarFormulario() {
     esValido = false;
   }
 
-  // Validación: edad
   if (!edadValor) {
     mostrarErrorCampo("edad", "La edad es obligatoria.");
     esValido = false;
@@ -157,13 +107,11 @@ function validarFormulario() {
     esValido = false;
   }
 
-  // Validación: especialidad
   if (!especialidad) {
     mostrarErrorCampo("especialidad", "Seleccioná una especialidad.");
     esValido = false;
   }
 
-  // Validación: motivo
   if (!motivo) {
     mostrarErrorCampo("motivo", "El motivo de consulta es obligatorio.");
     esValido = false;
@@ -177,23 +125,10 @@ function validarFormulario() {
   return { nombre, edad, especialidad, motivo };
 }
 
-// ============================================================
-// FUNCIONES DE RENDERIZADO EN EL DOM
-// ============================================================
-
-/**
- * Genera el HTML de una tarjeta de turno individual.
- * @param {Object} turno - Objeto con los datos del paciente
- * @returns {string} HTML de la tarjeta
- */
 function crearHTMLTarjetaTurno(turno) {
   return `
     <div class="turno-card" id="turno-${turno.id}">
-
-      <!-- Número de turno -->
       <div class="turno-numero">${turno.numero}</div>
-
-      <!-- Información del paciente -->
       <div class="turno-info">
         <div class="turno-nombre">${turno.nombre}</div>
         <div class="turno-meta">
@@ -207,22 +142,15 @@ function crearHTMLTarjetaTurno(turno) {
           <i class="bi bi-clipboard-pulse me-1"></i>${turno.motivo}
         </div>
       </div>
-
-      <!-- Botón eliminar -->
       <button
         class="btn-eliminar-turno"
         data-id="${turno.id}"
         title="Eliminar turno de ${turno.nombre}">
         <i class="bi bi-trash3"></i>
       </button>
-
     </div>`;
 }
 
-/**
- * Renderiza la lista completa de turnos en el DOM.
- * Se llama cada vez que el estado de `turnos` cambia.
- */
 function renderizarTurnos() {
   if (turnos.length === 0) {
     contenedorTurnos.innerHTML = "";
@@ -236,27 +164,22 @@ function renderizarTurnos() {
   registrarEventosEliminar();
 }
 
-/**
- * Actualiza todas las tarjetas de estadísticas y la barra de progreso.
- */
 function actualizarEstadisticas() {
   const total       = turnos.length;
   const disponibles = Math.max(0, MAX_TURNOS - total);
   const porcentaje  = Math.round((total / MAX_TURNOS) * 100);
   const proximo     = total > 0 ? `#${turnos[0].numero} · ${turnos[0].nombre.split(" ")[0]}` : "—";
 
-  // Actualizar texto de las tarjetas
   statTotal.textContent       = total;
   statDisponibles.textContent = disponibles;
   statProximo.textContent     = proximo;
   statPorcentaje.textContent  = porcentaje + "%";
   badgeTexto.textContent      = `${total} / ${MAX_TURNOS} turnos`;
 
-  // Actualizar barra de progreso
   barraOcupacion.style.width = porcentaje + "%";
   barraOcupacion.setAttribute("aria-valuenow", porcentaje);
 
-  // Cambiar color de la barra según nivel de ocupación
+  // Color de la barra según nivel de ocupación
   barraOcupacion.className = "progress-bar";
   if (porcentaje < 50) {
     barraOcupacion.classList.add("nivel-bajo");
@@ -267,32 +190,21 @@ function actualizarEstadisticas() {
   }
 }
 
-// ============================================================
-// FUNCIONES DE LÓGICA PRINCIPAL
-// ============================================================
-
-/**
- * Registra un nuevo paciente y le asigna un número de turno.
- * Se invoca al enviar el formulario.
- */
 function registrarPaciente() {
-  // Verificar disponibilidad
   if (turnos.length >= MAX_TURNOS) {
     mostrarNotificacion("No hay turnos disponibles. Capacidad máxima alcanzada.", "danger");
     return;
   }
 
-  // Validar datos
   const datos = validarFormulario();
   if (!datos) return;
 
-  // Calcular hora aproximada (a partir de las 8:00, cada 20 minutos)
+  // Hora estimada a partir de las 8:00, cada 20 minutos
   const minutosExtra = turnos.length * 20;
   const horaBase     = new Date();
   horaBase.setHours(8, minutosExtra, 0, 0);
   const horaFormateada = horaBase.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
 
-  // Crear objeto paciente
   const nuevoPaciente = {
     id:            `p${Date.now()}`,
     numero:        turnos.length + 1,
@@ -304,11 +216,9 @@ function registrarPaciente() {
     fechaRegistro: new Date().toLocaleString("es-AR"),
   };
 
-  // Agregar al array y persistir
   turnos.push(nuevoPaciente);
   Storage.guardar(turnos);
 
-  // Actualizar interfaz
   renderizarTurnos();
   formulario.reset();
   ["nombre", "edad", "especialidad", "motivo"].forEach(limpiarError);
@@ -319,11 +229,7 @@ function registrarPaciente() {
   );
 }
 
-/**
- * Abre el modal de confirmación antes de eliminar un turno.
- * Reemplaza el uso de confirm().
- * @param {string} idTurno - ID único del turno a eliminar
- */
+// Abre el modal de confirmación en lugar de usar confirm()
 function solicitarEliminar(idTurno) {
   const turno = turnos.find((t) => t.id === idTurno);
   if (!turno) return;
@@ -335,34 +241,25 @@ function solicitarEliminar(idTurno) {
   modal.show();
 }
 
-/**
- * Elimina el turno confirmado, reasigna números y actualiza el DOM.
- */
 function eliminarTurnoConfirmado() {
   if (!turnoAEliminar) return;
 
-  // Filtrar el turno eliminado
   turnos = turnos.filter((t) => t.id !== turnoAEliminar);
 
-  // Reasignar números correlativos
+  // Reasignar números correlativos tras la eliminación
   turnos.forEach((t, indice) => {
     t.numero = indice + 1;
   });
 
-  // Persistir y renderizar
   Storage.guardar(turnos);
   renderizarTurnos();
 
   mostrarNotificacion("Turno eliminado correctamente.", "info");
 
-  // Limpiar estado y cerrar modal
   turnoAEliminar = null;
   bootstrap.Modal.getInstance(document.getElementById("modal-confirmar")).hide();
 }
 
-/**
- * Elimina todos los turnos del sistema y limpia el localStorage.
- */
 function limpiarTodosTurnos() {
   if (turnos.length === 0) {
     mostrarNotificacion("No hay turnos para eliminar.", "warning");
@@ -377,14 +274,7 @@ function limpiarTodosTurnos() {
   mostrarNotificacion(`Se eliminaron ${cantidad} turno(s).`, "info");
 }
 
-// ============================================================
-// REGISTRO DE EVENTOS (delegación de eventos para botones dinámicos)
-// ============================================================
-
-/**
- * Registra los eventos de click en los botones "Eliminar" de cada turno.
- * Se usa delegación de eventos para manejar elementos creados dinámicamente.
- */
+// Registra eventos en botones generados dinámicamente
 function registrarEventosEliminar() {
   contenedorTurnos.querySelectorAll(".btn-eliminar-turno").forEach((boton) => {
     boton.addEventListener("click", () => {
@@ -394,13 +284,9 @@ function registrarEventosEliminar() {
   });
 }
 
-// ============================================================
-// INICIALIZACIÓN (DOMContentLoaded)
-// ============================================================
-
 document.addEventListener("DOMContentLoaded", () => {
 
-  // 1. Poblar el select de especialidades dinámicamente
+  // Poblar el select con las especialidades del array
   ESPECIALIDADES.forEach((esp) => {
     const opcion       = document.createElement("option");
     opcion.value       = esp;
@@ -408,22 +294,16 @@ document.addEventListener("DOMContentLoaded", () => {
     selectEspecialidad.appendChild(opcion);
   });
 
-  // 2. Render inicial desde localStorage
   renderizarTurnos();
 
-  // 3. Evento: envío del formulario
   formulario.addEventListener("submit", (evento) => {
     evento.preventDefault();
     registrarPaciente();
   });
 
-  // 4. Evento: confirmar eliminación desde el modal
   btnConfirmar.addEventListener("click", eliminarTurnoConfirmado);
-
-  // 5. Evento: limpiar todos los turnos
   btnLimpiar.addEventListener("click", limpiarTodosTurnos);
 
-  // 6. Limpiar errores al escribir en los campos
   [inputNombre, inputEdad, selectEspecialidad, inputMotivo].forEach((campo) => {
     campo.addEventListener("input", () => limpiarError(campo.id));
   });

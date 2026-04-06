@@ -1,17 +1,7 @@
-/**
- * storage.js
- * Módulo de almacenamiento persistente con localStorage.
- * Centraliza toda la interacción con localStorage.
- */
-
+// Módulo para persistir los turnos en localStorage
 const Storage = {
-  /** Clave utilizada en localStorage */
   CLAVE: "simulador_turnos_v2",
 
-  /**
-   * Guarda el array de turnos en localStorage.
-   * @param {Array} turnos - Array de objetos turno a persistir
-   */
   guardar(turnos) {
     try {
       localStorage.setItem(this.CLAVE, JSON.stringify(turnos));
@@ -20,10 +10,6 @@ const Storage = {
     }
   },
 
-  /**
-   * Carga los turnos guardados desde localStorage.
-   * @returns {Array} Array de turnos o array vacío si no hay datos
-   */
   cargar() {
     try {
       const datos = localStorage.getItem(this.CLAVE);
@@ -34,9 +20,6 @@ const Storage = {
     }
   },
 
-  /**
-   * Elimina todos los turnos del localStorage.
-   */
   limpiar() {
     try {
       localStorage.removeItem(this.CLAVE);

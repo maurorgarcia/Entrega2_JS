@@ -1,9 +1,4 @@
-/* =====================================================
-   SIMULADOR DE TURNOS — styles.css
-   Entregable 2 · Diseño custom sobre Bootstrap 5
-   ===================================================== */
-
-/* ---------- Variables globales ---------- */
+/* Variables globales */
 :root {
   --azul-oscuro:  #0f3460;
   --azul-medio:   #1a5276;
@@ -27,7 +22,6 @@
   --font-mono:    'DM Mono', monospace;
 }
 
-/* ---------- Reset y base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
@@ -37,9 +31,7 @@ body {
   min-height: 100vh;
 }
 
-/* =====================================================
-   HEADER
-   ===================================================== */
+/* ---- Header ---- */
 .app-header {
   background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 60%, var(--azul-acento) 100%);
   color: var(--blanco);
@@ -48,7 +40,6 @@ body {
   overflow: hidden;
 }
 
-/* Patrón decorativo de fondo */
 .header-bg-pattern {
   position: absolute;
   inset: 0;
@@ -99,9 +90,7 @@ body {
   white-space: nowrap;
 }
 
-/* =====================================================
-   ESTADÍSTICAS
-   ===================================================== */
+/* ---- Estadísticas ---- */
 .stats-section {
   padding: 1.4rem 0 0.4rem;
 }
@@ -158,24 +147,18 @@ body {
   margin-top: 2px;
 }
 
-/* Barra de progreso */
 .progress-bar { transition: width 0.5s ease; }
-#barra-ocupacion.bg-verde   { background-color: var(--verde) !important; }
 #barra-ocupacion.nivel-bajo  { background-color: var(--verde) !important; }
 #barra-ocupacion.nivel-medio { background-color: var(--naranja) !important; }
 #barra-ocupacion.nivel-alto  { background-color: var(--rojo) !important; }
 
-/* =====================================================
-   CONTENIDO PRINCIPAL
-   ===================================================== */
+/* ---- Contenido principal ---- */
 .main-content {
   padding-top: 1.5rem;
   padding-bottom: 3rem;
 }
 
-/* =====================================================
-   FORMULARIO
-   ===================================================== */
+/* ---- Formulario ---- */
 .form-card {
   background: var(--blanco);
   border-radius: var(--radio);
@@ -196,7 +179,6 @@ body {
   padding: 1.6rem 1.4rem;
 }
 
-/* Campos del formulario */
 .campo-grupo {
   margin-bottom: 1.1rem;
 }
@@ -247,7 +229,6 @@ body {
   font-weight: 500;
 }
 
-/* Botón registrar */
 .btn-registrar {
   width: 100%;
   padding: 0.75rem;
@@ -274,9 +255,7 @@ body {
   transform: translateY(0);
 }
 
-/* =====================================================
-   LISTA DE TURNOS
-   ===================================================== */
+/* ---- Lista de turnos ---- */
 .lista-card {
   background: var(--blanco);
   border-radius: var(--radio);
@@ -313,7 +292,6 @@ body {
   color: #fff;
 }
 
-/* Mensaje lista vacía */
 .lista-vacia {
   text-align: center;
   padding: 3rem 1.5rem;
@@ -338,14 +316,12 @@ body {
   font-size: 0.8rem;
 }
 
-/* Contenedor de las tarjetas de turno */
 #lista-turnos {
   padding: 1rem 1.1rem;
   max-height: 520px;
   overflow-y: auto;
 }
 
-/* Scrollbar personalizado */
 #lista-turnos::-webkit-scrollbar { width: 5px; }
 #lista-turnos::-webkit-scrollbar-track { background: transparent; }
 #lista-turnos::-webkit-scrollbar-thumb {
@@ -353,9 +329,7 @@ body {
   border-radius: 99px;
 }
 
-/* =====================================================
-   TARJETAS DE TURNO (cada paciente)
-   ===================================================== */
+/* ---- Tarjetas de turno ---- */
 .turno-card {
   background: #f8fafc;
   border: 1.5px solid var(--gris-claro);
@@ -381,7 +355,6 @@ body {
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Número de turno (círculo) */
 .turno-numero {
   width: 38px;
   height: 38px;
@@ -397,7 +370,6 @@ body {
   flex-shrink: 0;
 }
 
-/* Info del paciente */
 .turno-info { flex: 1; min-width: 0; }
 
 .turno-nombre {
@@ -440,7 +412,6 @@ body {
   margin-bottom: 4px;
 }
 
-/* Botón eliminar */
 .btn-eliminar-turno {
   background: none;
   border: 1.5px solid var(--gris-claro);
@@ -464,9 +435,7 @@ body {
   border-color: var(--rojo);
 }
 
-/* =====================================================
-   MODAL DE CONFIRMACIÓN
-   ===================================================== */
+/* ---- Modal de confirmación ---- */
 .modal-custom {
   border: none;
   border-radius: var(--radio);
@@ -539,9 +508,7 @@ body {
 
 .btn-modal-confirmar:hover { opacity: 0.88; }
 
-/* =====================================================
-   TOASTS PERSONALIZADOS
-   ===================================================== */
+/* ---- Toasts ---- */
 .toast {
   border-radius: var(--radio-sm) !important;
   box-shadow: var(--sombra-md) !important;
@@ -551,9 +518,7 @@ body {
   min-width: 260px;
 }
 
-/* =====================================================
-   RESPONSIVE AJUSTES
-   ===================================================== */
+/* ---- Responsive ---- */
 @media (max-width: 576px) {
   .app-title     { font-size: 1.2rem; }
   .badge-capacidad { display: none; }
